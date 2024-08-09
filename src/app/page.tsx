@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography, CircularProgress } from "@mui/material";
 import { useState } from "react";
 
 interface Message {
@@ -12,10 +11,11 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hi, I'm the Customer Service Agent, how can I help you today?",
+      content: "Hi, I'm Converso. How can I assist you today?",
     },
   ]);
   const [message, setMessage] = useState<string>("");
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const sendMessage = async () => {
     const userMessage: Message = { role: "user", content: message };
@@ -24,6 +24,8 @@ export default function Home() {
       userMessage,
       { role: "assistant", content: "" },
     ]);
+    setMessage("");
+    setIsTyping(true);
 
     const response = await fetch("api/chat", {
       method: "POST",
@@ -35,6 +37,7 @@ export default function Home() {
 
     if (!response.body) {
       console.error("Response body is null");
+      setIsTyping(false);
       return;
     }
 
@@ -53,6 +56,7 @@ export default function Home() {
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages];
           updatedMessages[updatedMessages.length - 1].content = result;
+          setIsTyping(false);
           return updatedMessages;
         });
         return;
@@ -70,80 +74,112 @@ export default function Home() {
     };
 
     reader.read().then(processText);
-    setMessage("");
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"></div>
+    <main className="flex min-h-screen flex-col items-center p-4" style={{ backgroundColor: "#000" }}>
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        style={{ color: "#fff", margin: "20px 0" }}
+      >
+        Converso
+      </Typography>
 
-      <div className="justify-between relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
       <Box
-        width="100vw"
-        height="100vh"
+        width="100%"
+        maxWidth="600px"
+        height="80vh"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
+        justifyContent="space-between"
+        p={2}
+        sx={{ borderRadius: 2, backgroundColor: "#1e1e1e", overflow: "hidden" }}
       >
         <Stack
           direction="column"
-          width="1100px"
-          flexGrow={1}
-          overflow={"auto"}
-          maxHeight="100%"
-          p={2}
           spacing={2}
+          overflow="auto"
+          flexGrow={1}
+          style={{ paddingRight: 10 }} // Ensure proper spacing for scrollbar
         >
           {messages.map((msg, index) => (
             <Box
               key={index}
               display="flex"
-              justifyContent={
-                msg.role === "assistant" ? "flex-end" : "flex-start"
-              }
+              justifyContent={msg.role === "assistant" ? "flex-end" : "flex-start"}
+              mb={1}
             >
               <Box
-                bgcolor={msg.role === "assistant" ? "fffaf9" : "#f9efec"}
-                color={"black"}
-                borderRadius={16}
-                p={3}
+                bgcolor={msg.role === "assistant" ? "#333" : "#007bff"} // Assistant messages in dark gray, user messages in blue
+                color={msg.role === "assistant" ? "#fff" : "#fff"} // Text color white for both
+                borderRadius={10}
+                p={2}
+                maxWidth="80%"
+                sx={{ position: "relative" }}
               >
                 {msg.content}
+                {msg.role === "assistant" && isTyping && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <CircularProgress
+                      size={10}
+                      sx={{ color: "#fff", marginRight: 1 }}
+                    />
+                    <Typography variant="body2" color="grey">
+                      ...
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </Box>
           ))}
-          <Stack direction="row" spacing={2}>
-            <TextField
-              placeholder="Ask a question?"
-              fullWidth
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <Button
-              sx={{
-                backgroundColor: "#d4cdcb",
-                color: "white",
-                "&:hover": { backgroundColor: "#cfc8c5" },
-              }}
-              onClick={sendMessage}
-              variant="contained"
-            >
-              {">"}
-            </Button>
-          </Stack>
+        </Stack>
+
+        <Stack direction="row" spacing={1} mt={2}>
+          <TextField
+            placeholder="Ask a question?"
+            fullWidth
+            variant="outlined"
+            size="small"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 15,
+              },
+              "& .MuiInputBase-input": {
+                color: "#fff",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#555",
+              },
+            }}
+          />
+          <Button
+            sx={{
+              backgroundColor: "#555",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#666" },
+              height: "40px",
+              minWidth: "40px",
+              borderRadius: 15,
+            }}
+            onClick={sendMessage}
+            variant="contained"
+          >
+            &#x27A4;
+          </Button>
         </Stack>
       </Box>
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left"></div>
     </main>
   );
 }
