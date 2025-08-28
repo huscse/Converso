@@ -1,4 +1,4 @@
-# Converso - AI Customer Support Chatbot
+# Converso - AI Chatbot
 
 ![Converso Preview](/public/preview.png)
 
