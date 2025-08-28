@@ -1,6 +1,13 @@
-"use client";
-import { Box, Button, Stack, TextField, Typography, CircularProgress } from "@mui/material";
-import { useState } from "react";
+'use client';
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  CircularProgress,
+} from '@mui/material';
+import { useState } from 'react';
 
 interface Message {
   role: string;
@@ -10,40 +17,40 @@ interface Message {
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      role: "assistant",
+      role: 'assistant',
       content: "Hi, I'm Converso. How can I assist you today?",
     },
   ]);
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const sendMessage = async () => {
-    const userMessage: Message = { role: "user", content: message };
+    const userMessage: Message = { role: 'user', content: message };
     setMessages((prevMessages) => [
       ...prevMessages,
       userMessage,
-      { role: "assistant", content: "" },
+      { role: 'assistant', content: '' },
     ]);
-    setMessage("");
+    setMessage('');
     setIsTyping(true);
 
-    const response = await fetch("api/chat", {
-      method: "POST",
+    const response = await fetch('api/chat', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify([...messages, userMessage]),
     });
 
     if (!response.body) {
-      console.error("Response body is null");
+      console.error('Response body is null');
       setIsTyping(false);
       return;
     }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    let result = "";
+    let result = '';
 
     const processText = async ({
       done,
@@ -77,12 +84,15 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-4" style={{ backgroundColor: "#000" }}>
+    <main
+      className="flex min-h-screen flex-col items-center p-4"
+      style={{ backgroundColor: '#000' }}
+    >
       <Typography
         variant="h4"
         align="center"
         gutterBottom
-        style={{ color: "#fff", margin: "20px 0" }}
+        style={{ color: '#fff', margin: '20px 0' }}
       >
         Converso
       </Typography>
@@ -95,7 +105,7 @@ export default function Home() {
         flexDirection="column"
         justifyContent="space-between"
         p={2}
-        sx={{ borderRadius: 2, backgroundColor: "#1e1e1e", overflow: "hidden" }}
+        sx={{ borderRadius: 2, backgroundColor: '#1e1e1e', overflow: 'hidden' }}
       >
         <Stack
           direction="column"
@@ -108,31 +118,33 @@ export default function Home() {
             <Box
               key={index}
               display="flex"
-              justifyContent={msg.role === "assistant" ? "flex-end" : "flex-start"}
+              justifyContent={
+                msg.role === 'assistant' ? 'flex-end' : 'flex-start'
+              }
               mb={1}
             >
               <Box
-                bgcolor={msg.role === "assistant" ? "#333" : "#007bff"} // Assistant messages in dark gray, user messages in blue
-                color={msg.role === "assistant" ? "#fff" : "#fff"} // Text color white for both
+                bgcolor={msg.role === 'assistant' ? '#333' : '#007bff'} // Assistant messages in dark gray, user messages in blue
+                color={msg.role === 'assistant' ? '#fff' : '#fff'} // Text color white for both
                 borderRadius={10}
                 p={2}
                 maxWidth="80%"
-                sx={{ position: "relative" }}
+                sx={{ position: 'relative' }}
               >
                 {msg.content}
-                {msg.role === "assistant" && isTyping && (
+                {msg.role === 'assistant' && isTyping && (
                   <Box
                     sx={{
-                      position: "absolute",
+                      position: 'absolute',
                       bottom: 0,
                       left: 0,
-                      display: "flex",
-                      alignItems: "center",
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
                     <CircularProgress
                       size={10}
-                      sx={{ color: "#fff", marginRight: 1 }}
+                      sx={{ color: '#fff', marginRight: 1 }}
                     />
                     <Typography variant="body2" color="grey">
                       ...
@@ -153,24 +165,24 @@ export default function Home() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             sx={{
-              "& .MuiOutlinedInput-root": {
+              '& .MuiOutlinedInput-root': {
                 borderRadius: 15,
               },
-              "& .MuiInputBase-input": {
-                color: "#fff",
+              '& .MuiInputBase-input': {
+                color: '#fff',
               },
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#555",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#555',
               },
             }}
           />
           <Button
             sx={{
-              backgroundColor: "#555",
-              color: "#fff",
-              "&:hover": { backgroundColor: "#666" },
-              height: "40px",
-              minWidth: "40px",
+              backgroundColor: '#555',
+              color: '#fff',
+              '&:hover': { backgroundColor: '#666' },
+              height: '40px',
+              minWidth: '40px',
               borderRadius: 15,
             }}
             onClick={sendMessage}
