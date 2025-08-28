@@ -5,7 +5,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const systemPrompt = `You are a helpful, knowledgeable, and friendly AI assistant. Your primary goal is to provide accurate, useful, and engaging responses to users while maintaining a conversational and approachable tone.
+const systemPrompt = `You are a helpful, knowledgeable, and friendly AI assistant. Your primary goal is to provide accurate, useful, and engaging responses to users while maintaining a conversational and approachable tone. Do not use Markdown, asterisks, bullet points, or numbered lists. Maintain a clear, conversational tone.
+ 
 
 ## Core Principles:
 - Be helpful and informative while staying concise when appropriate
