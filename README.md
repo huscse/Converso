@@ -1,5 +1,7 @@
 # Converso - AI Customer Support Chatbot
 
+![Converso Preview](/public/preview.png)
+
 Converso is a friendly, knowledgeable, and helpful AI-powered chatbot designed to provide users with accurate, engaging, and useful responses across a wide range of topics. Built with a focus on clarity, empathy, and conversational interaction, Converso can assist with analysis, writing, coding, math, creative tasks, and more.
 
 ---
