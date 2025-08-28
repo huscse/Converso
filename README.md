@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Converso - AI Customer Support Chatbot
 
-## Getting Started
+Converso is a friendly, knowledgeable, and helpful AI-powered chatbot designed to provide users with accurate, engaging, and useful responses across a wide range of topics. Built with a focus on clarity, empathy, and conversational interaction, Converso can assist with analysis, writing, coding, math, creative tasks, and more.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Conversational AI:** Interacts naturally and adapts to the user's tone and formality.
+- **Helpful & Knowledgeable:** Provides clear, accurate answers while admitting uncertainty when necessary.
+- **Step-by-Step Guidance:** Offers structured explanations, examples, and analogies to clarify complex concepts.
+- **Creative Problem Solving:** Engages in brainstorming, idea generation, and thoughtful discussions.
+- **User-Centric:** Asks clarifying questions and offers alternative solutions if a request is ambiguous.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## How It Works
 
-## Learn More
+The chatbot operates based on a carefully crafted system prompt that defines its personality, response style, and limitations. Its core principles are:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Be informative and concise** while maintaining a warm and professional tone.
+2. **Adapt to the user’s needs** in terms of style, energy, and complexity.
+3. **Engage users creatively** without being overly verbose.
+4. **Provide actionable guidance** wherever possible.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Core Capabilities
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Answer questions across various domains
+- Assist with writing, coding, math, and analysis
+- Provide explanations, summaries, and step-by-step instructions
+- Brainstorm ideas and offer multiple perspectives
 
-## Deploy on Vercel
+### Limitations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Cannot access the internet or real-time information
+- Cannot retain memory of previous conversations
+- Cannot perform actions outside of this chat interface
+- May have knowledge gaps for very recent events
